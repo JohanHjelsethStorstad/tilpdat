@@ -8,7 +8,7 @@ all : | programs
 programs :
 	mkdir -p $@
 
-break : source/break.c source/break2.c
+break : source/break.c source/break2.c | programs
 	gcc -g3 $^ -o programs/$@
 
 % : source/%.c
