@@ -1,0 +1,70 @@
+\hypertarget{system_8h}{}\doxysection{source/system.h File Reference}
+\label{system_8h}\index{source/system.h@{source/system.h}}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{system_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structSystem}{System}}
+\begin{DoxyCompactList}\small\item\em A structure to represent a system and desired P\+ID tuning method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{system_8h_aed7f5186d416224e26c97bc9978aac47}\label{system_8h_aed7f5186d416224e26c97bc9978aac47}} 
+enum \mbox{\hyperlink{system_8h_aed7f5186d416224e26c97bc9978aac47}{Tuning}} \{ {\bfseries Classic\+\_\+\+Ziegler\+\_\+\+Nichols}, 
+{\bfseries Pessen\+\_\+\+Integral\+\_\+\+Rule}
+ \}
+\begin{DoxyCompactList}\small\item\em All tuning methds implemented. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structSystem}{System}} $\ast$ \mbox{\hyperlink{system_8h_a89d285f35ca686ba869daaaf54ba7744}{system\+\_\+create}} (double Ku, double Tu, \mbox{\hyperlink{system_8h_aed7f5186d416224e26c97bc9978aac47}{Tuning}} tuning\+\_\+method)
+\begin{DoxyCompactList}\small\item\em Creates a \mbox{\hyperlink{structSystem}{System}} struct allocated on the heap. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{system_8h_adab9a110141ccce185af981adbc62515}{system\+\_\+delete}} (\mbox{\hyperlink{structSystem}{System}} $\ast$system\+\_\+current)
+\begin{DoxyCompactList}\small\item\em Deallocates syatem. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{system_8h_a89d285f35ca686ba869daaaf54ba7744}\label{system_8h_a89d285f35ca686ba869daaaf54ba7744}} 
+\index{system.h@{system.h}!system\_create@{system\_create}}
+\index{system\_create@{system\_create}!system.h@{system.h}}
+\doxysubsubsection{\texorpdfstring{system\_create()}{system\_create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structSystem}{System}}$\ast$ system\+\_\+create (\begin{DoxyParamCaption}\item[{double}]{Ku,  }\item[{double}]{Tu,  }\item[{\mbox{\hyperlink{system_8h_aed7f5186d416224e26c97bc9978aac47}{Tuning}}}]{tuning\+\_\+method }\end{DoxyParamCaption})}
+
+
+
+Creates a \mbox{\hyperlink{structSystem}{System}} struct allocated on the heap. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em Ku} & Proportional gain for system \\
+\hline
+\mbox{\texttt{ in}}  & {\em Tu} & Time constant for \mbox{\hyperlink{structSystem}{System}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em tuning\+\_\+methode} & What tuning method the system uses of enum type Tuning. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to a new \mbox{\hyperlink{structSystem}{System}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{system_8h_adab9a110141ccce185af981adbc62515}\label{system_8h_adab9a110141ccce185af981adbc62515}} 
+\index{system.h@{system.h}!system\_delete@{system\_delete}}
+\index{system\_delete@{system\_delete}!system.h@{system.h}}
+\doxysubsubsection{\texorpdfstring{system\_delete()}{system\_delete()}}
+{\footnotesize\ttfamily void system\+\_\+delete (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSystem}{System}} $\ast$}]{system\+\_\+current }\end{DoxyParamCaption})}
+
+
+
+Deallocates syatem. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em system\+\_\+current} & \\
+\hline
+\end{DoxyParams}
