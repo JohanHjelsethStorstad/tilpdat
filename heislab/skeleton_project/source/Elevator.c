@@ -32,7 +32,7 @@ void _ElevatorSetFloor(struct Elevator* elevator, enum Floor floor_) {
 
 void ElevatorReadFloor(struct Elevator* elevator) {
     int floor = elevio_floorSensor();
-    _ElevatorSetFloor(elevator, floor);
+    _ElevatorSetFloor(elevator, floor + 1);
 }
 
 struct Elevator* ElevatorSingleton() {
@@ -46,4 +46,9 @@ struct Elevator* ElevatorSingleton() {
 void ElevatorDestroy(struct Elevator* elevator) {
     free(elevator);
     return;
+}
+
+void ElevatorPrint(struct Elevator* elevator) {
+    printf("Elevator: ");
+    printf("Active: %d, floor: %d, direction: %d \n", elevator->active, elevator->floor, elevator->direction);
 }

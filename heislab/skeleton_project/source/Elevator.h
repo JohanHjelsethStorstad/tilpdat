@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "./Floor.h"
+#include <stdio.h>
 
 enum Direction {
     UP = 1,
@@ -28,3 +29,5 @@ void ElevatorReadFloor(struct Elevator* elevator);
 struct Elevator* ElevatorSingleton();
 
 void ElevatorDestroy(struct Elevator* elevator);
+
+void ElevatorPrint(struct Elevator* elevator);

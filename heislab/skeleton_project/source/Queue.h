@@ -2,35 +2,39 @@
 #include "./Floor.h"
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-
-enum QueueType = {
-    UP,
-    DOWN,
-    OFF
-}
+enum QueueType {
+    Q_UP = 0,
+    Q_DOWN = 1,
+    Q_OFF = 2
+};
 
 struct QueueElement {
     enum QueueType type;
     enum Floor floor;
-}
+    struct QueueElement* prev;
+};
 
 struct Queue {
-    struct QueueElement* elements;
-    int length;
-}
+    struct QueueElement* head;
+    struct QueueElement* tail;
+    int size;
+    int limit;
+};
 
-struct Queue* QueueSingleton();
+struct QueueElement* QueueElementConsturctor(enum QueueType type_, enum Floor floor_);
 
-void QueueClear(struct Queue* queue) {
-    free(queue.elements);
-    queue.length = 0;
-    return
-}
+struct Queue* QueueSingleton(int limit);
 
-void QueueAdd(struct Queue* queue, struct QueueElement* qe) {
-    queue.length++;
-    queue.elements = realloc(queue.elements, queue.length*sizeof(struct QueueElement));
-    queue.elements[queue.length - 1] = qe;
-    return;
-}
+bool QueueIsEmpty(struct Queue* q);
+
+void QueueDestruct(struct Queue* q);
+
+struct QueueElement* QueuePop(struct Queue *q);
+
+int QueueAdd(struct Queue* q, struct QueueElement* qe);
+
+void QueuePrint(struct Queue* q);
+
+void QueueClear(struct Queue* q);
