@@ -35,3 +35,7 @@ void ButtonRead(struct Button* btn) {
         _ButtonActivate(btn);
     }
 }
+
+void ButtonPrint(struct Button* btn) {
+    printf("Button: type: %d, floor: %d, active: %d\n", btn->type, btn->floor, btn->active);
+}

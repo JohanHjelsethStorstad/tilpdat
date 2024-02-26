@@ -24,3 +24,5 @@ void ButtonUnactivate(struct Button* btn);
 
 void ButtonRead(struct Button* btn);
 
+void ButtonPrint(struct Button* btn);
+
