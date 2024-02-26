@@ -1,12 +1,11 @@
 #include "./Stopbutton.h"
 
-struct Stopbutton* StopbuttonSingleton(struct Queue* queue, struct Elevator* elevator) {
+struct Stopbutton* StopbuttonSingleton(struct Controller* controller) {
     static struct Stopbutton* stopbutton = NULL;
     if (stopbutton == NULL) {
         stopbutton = (struct Stopbutton*)malloc(sizeof(struct Stopbutton));
         _StopbuttonSetStop(stopbutton, false);
-        stopbutton->queue = queue;
-        stopbutton->elevator = elevator;
+        stopbutton->controller = controller;
 
         pthread_t watchStopbuttonThread;
         pthread_create(&watchStopbuttonThread, NULL, StopbuttonUpdate, stopbutton);
@@ -32,7 +31,11 @@ void _StopbuttonSetStop(struct Stopbutton* stopbutton, bool stop) {
     elevio_stopLamp(stop);
 
     if(stop) {
-        ElevatorSetActive(stopbutton->elevator, false);
-        QueueClear(stopbutton->queue);
+        ElevatorSetActive(stopbutton->controller->elevator, false);
+        QueueClear(stopbutton->controller->queue);
+        for (int i=0; i < 10; ++i) {
+            struct Button* currentBtn = (stopbutton->controller->buttons)[i];
+            ButtonUnactivate(currentBtn);
+        }
     }
 }

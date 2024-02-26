@@ -3,16 +3,14 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "./Queue.h"
-#include "./Elevator.h"
+#include "./Controller.h"
 
 struct Stopbutton {
     bool stop;
-    struct Queue* queue;
-    struct Elevator* elevator;
+    struct Controller* controller;
 };
 
-struct Stopbutton* StopbuttonSingleton(struct Queue* queue, struct Elevator* elevator);
+struct Stopbutton* StopbuttonSingleton(struct Controller* controller);
 
 void* StopbuttonUpdate(void* arg);
 
