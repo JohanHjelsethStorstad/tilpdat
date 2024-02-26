@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "driver/elevio.h"
-
+#include <pthread.h>
 
 struct Button {
     enum QueueType type;
@@ -23,6 +23,8 @@ void _ButtonActivate(struct Button* btn);
 void ButtonUnactivate(struct Button* btn);
 
 void ButtonRead(struct Button* btn);
+
+void ButtonReadThread(struct Button* btn);
 
 void ButtonPrint(struct Button* btn);
 

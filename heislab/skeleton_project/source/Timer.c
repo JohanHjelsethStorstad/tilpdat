@@ -34,7 +34,7 @@ void* TimerUpdate(void* arg) {
     while (true) {
         while (!timer->halted && timer->running) {
             sleep(1);
-            printf("%d\n", timer->time);
+            printf("Timer at: %d\n", timer->time);
             timer->time++;
             if (timer->time >= timer->stopTime) {
                 TimerOff(timer);

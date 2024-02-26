@@ -25,13 +25,10 @@ void ControllerStart(struct Controller* controller) {
     ElevatorSetActive(controller->elevator, true);
     ElevatorSetDirection(controller->elevator, UP);
     while (1) {
-        for (int i=0; i < 10; ++i) {
-            ButtonRead((controller->buttons)[i]);
-        }
         ElevatorReadFloor(controller->elevator);
 
-        //ElevatorPrint(controller->elevator);
-        //QueuePrint(controller->queue);
+        ElevatorPrint(controller->elevator);
+        QueuePrint(controller->queue);
 
         if (!controller->target) {
             ElevatorSetActive(controller->elevator, false);
