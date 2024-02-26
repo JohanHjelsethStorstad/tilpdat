@@ -8,6 +8,7 @@ struct Timer {
     int time;
     int stopTime;
     bool running;
+    bool halted;
 };
 
 struct Timer* TimerConstructor(int duration);
@@ -19,3 +20,11 @@ void TimerReset(struct Timer* timer);
 void* TimerUpdate(void* arg);
 
 void TimerStart(struct Timer* timer);
+
+void TimerOff();
+
+void TimerOn(struct Timer* timer);
+
+void TimerHalt(struct Timer* timer);
+
+void TimerUnhalt(struct Timer* timer);

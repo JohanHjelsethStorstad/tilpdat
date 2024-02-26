@@ -30,8 +30,8 @@ void ControllerStart(struct Controller* controller) {
         }
         ElevatorReadFloor(controller->elevator);
 
-        ElevatorPrint(controller->elevator);
-        QueuePrint(controller->queue);
+        //ElevatorPrint(controller->elevator);
+        //QueuePrint(controller->queue);
 
         if (!controller->target) {
             ElevatorSetActive(controller->elevator, false);

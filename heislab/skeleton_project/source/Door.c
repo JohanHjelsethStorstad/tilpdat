@@ -52,8 +52,10 @@ void DoorUpdate(void* arg) {
     struct Door* door = (struct Door*)arg;
     //TODO check obstruction -> reset timer
     if (elevio_obstruction()) {
-        printf("obstuction\n");
-        TimerStart(door->doorTimer);
+        TimerReset(door->doorTimer);
+        TimerHalt(door->doorTimer);
+    } else {
+        TimerUnhalt(door->doorTimer);
     }
 
     if (door->open && !(door->doorTimer->running)) {
