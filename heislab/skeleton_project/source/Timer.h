@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 struct Timer {
-    int startTime;
     int time;
     int stopTime;
     bool running;

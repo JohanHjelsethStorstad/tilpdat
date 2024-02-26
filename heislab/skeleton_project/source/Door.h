@@ -2,13 +2,14 @@
 #include <stdbool.h>
 #include "./Timer.h"
 #include <time.h>
+#include "./driver/elevio.h"
 
 struct Door {
     bool open;
     struct Timer* doorTimer;
 };
 
-struct Door* DoorConstructor();
+struct Door* DoorSingleton();
 
 void DoorOpen(struct Door* door);
 

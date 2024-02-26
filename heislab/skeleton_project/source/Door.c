@@ -1,6 +1,6 @@
 #include "./Door.h"
 
-struct Door* DoorConstructor() {
+struct Door* DoorSingleton() {
     struct Door* door = (struct Door*)malloc(sizeof(struct Door));
     door->open = false;
     door->doorTimer = TimerConstructor(3);
@@ -51,8 +51,12 @@ void DoorWatch(struct Door* door) {
 void DoorUpdate(void* arg) {
     struct Door* door = (struct Door*)arg;
     //TODO check obstruction -> reset timer
+    if (elevio_obstruction()) {
+        printf("obstuction\n");
+        TimerStart(door->doorTimer);
+    }
 
-    if (door->open && door->doorTimer->running) {
+    if (door->open && !(door->doorTimer->running)) {
         DoorClose(door);
     }
     return;

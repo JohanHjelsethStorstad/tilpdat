@@ -3,6 +3,7 @@
 struct Controller* ControllerSingleton() {
     struct Controller* controller = (struct Controller*)malloc(sizeof(struct Controller));
     controller->elevator = ElevatorSingleton();
+    controller->door = DoorSingleton();
     controller->queue = QueueSingleton(2000);
     controller->target = NULL;
     
@@ -49,6 +50,9 @@ void ControllerStart(struct Controller* controller) {
                         }
                     }
                     controller->target = NULL;
+                    DoorOpen(controller->door);
+                    DoorWatch(controller->door);
+                    DoorWaitForClose(controller->door);
                 } else {
                     ElevatorSetActive(controller->elevator, true);
                     if (diff > 0)ElevatorSetDirection(controller->elevator, DOWN);

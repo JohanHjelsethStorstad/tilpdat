@@ -2,7 +2,6 @@
 
 struct Timer* TimerConstructor(int duration) {
     struct Timer* timer = (struct Timer*)malloc(sizeof(struct Timer));
-    timer->startTime = 0;
     timer->stopTime = duration;
     timer->running = false;
     TimerReset(timer);
@@ -14,7 +13,7 @@ void TimerDestruct(struct Timer* timer) {
 }
 
 void TimerReset(struct Timer* timer) {
-    timer->time = timer->startTime;
+    timer->time = 0;
     timer->running = false;
 }
 
@@ -31,6 +30,7 @@ void* TimerUpdate(void* arg) {
 }
 
 void TimerStart(struct Timer* timer) {
+    timer->time = 0;
     timer->running = true;
 
     pthread_t watchTimeThread;
