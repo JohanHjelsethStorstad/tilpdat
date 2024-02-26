@@ -6,6 +6,7 @@ struct Controller* ControllerSingleton() {
     controller->door = DoorSingleton();
     controller->queue = QueueSingleton(2000);
     controller->target = NULL;
+    controller->stopbutton = StopbuttonSingleton(controller->queue, controller->elevator);
     
     int i = 0;
     for(int f = 1; f <= 4 ; f++){
@@ -25,8 +26,6 @@ void ControllerStart(struct Controller* controller) {
     ElevatorSetActive(controller->elevator, true);
     ElevatorSetDirection(controller->elevator, UP);
     while (1) {
-        ElevatorReadFloor(controller->elevator);
-
         ElevatorPrint(controller->elevator);
         QueuePrint(controller->queue);
 

@@ -6,6 +6,7 @@
 #include "./Button.h"
 #include "./Elevator.h"
 #include "./Door.h"
+#include "./Stopbutton.h"
 #include <signal.h>
 #include <time.h>
 #include <stdio.h>
@@ -17,6 +18,7 @@ struct Controller {
     struct Queue* queue;
     struct QueueElement* target;
     struct Button* buttons[10];
+    struct Stopbutton* stopbutton;
 };
 
 struct Controller* ControllerSingleton();

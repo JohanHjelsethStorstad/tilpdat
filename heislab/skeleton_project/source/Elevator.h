@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "./Floor.h"
 #include <stdio.h>
+#include <pthread.h>
 
 enum Direction {
     UP = 1,
@@ -24,7 +25,11 @@ void ElevatorSetDirection(struct Elevator* elevator, enum Direction direction_);
 
 void _ElevatorSetFloor(struct Elevator* elevator, enum Floor floor_);
 
-void ElevatorReadFloor(struct Elevator* elevator);
+void _ElevatorReadFloor(struct Elevator* elevator);
+
+void ElevatorUpdate(struct Elevator* elevator);
+
+void ElevatorReadFloorThread(struct Elevator* elevator);
 
 struct Elevator* ElevatorSingleton();
 

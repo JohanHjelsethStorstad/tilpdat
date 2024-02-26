@@ -30,16 +30,33 @@ void _ElevatorSetFloor(struct Elevator* elevator, enum Floor floor_) {
     return;
 }
 
-void ElevatorReadFloor(struct Elevator* elevator) {
+void _ElevatorReadFloor(struct Elevator* elevator) {
     int floor = elevio_floorSensor();
     _ElevatorSetFloor(elevator, floor + 1);
 }
 
+void _ElevatorUpdate(void* arg) {
+    struct Elevator* elevator = (struct Elevator*)arg;
+    while (true) {
+        _ElevatorReadFloor(elevator);
+        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+    }
+    return;
+}
+
+void ElevatorReadFloorThread(struct Elevator* elevator) {
+    pthread_t watchElevatorThread;
+    pthread_create(&watchElevatorThread, NULL, _ElevatorUpdate, elevator);
+    pthread_detach(watchElevatorThread);
+    return;
+}
+
 struct Elevator* ElevatorSingleton() {
     struct Elevator* elevator = (struct Elevator*)malloc(sizeof(struct Elevator));
-    ElevatorReadFloor(elevator);
+    _ElevatorReadFloor(elevator);
     ElevatorSetActive(elevator, false);
     ElevatorSetDirection(elevator, DOWN);
+    ElevatorReadFloorThread(elevator);
     return elevator;
 }
 

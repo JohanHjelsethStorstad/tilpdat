@@ -22,7 +22,7 @@ void _ButtonActivate(struct Button* btn);
 
 void ButtonUnactivate(struct Button* btn);
 
-void ButtonRead(struct Button* btn);
+void _ButtonRead(void* arg);
 
 void ButtonReadThread(struct Button* btn);
 
