@@ -4,7 +4,6 @@ struct Stopbutton* StopbuttonSingleton(struct Controller* controller) {
     static struct Stopbutton* stopbutton = NULL;
     if (stopbutton == NULL) {
         stopbutton = (struct Stopbutton*)malloc(sizeof(struct Stopbutton));
-        _StopbuttonSetStop(stopbutton, false);
         stopbutton->controller = controller;
 
         pthread_t watchStopbuttonThread;
@@ -31,7 +30,10 @@ void _StopbuttonSetStop(struct Stopbutton* stopbutton, bool stop) {
     elevio_stopLamp(stop);
 
     if(stop) {
+        printf("Stop");
         ElevatorSetActive(stopbutton->controller->elevator, false);
+        stopbutton->controller->target = NULL;
+        
         QueueClear(stopbutton->controller->queue);
         for (int i=0; i < 10; ++i) {
             struct Button* currentBtn = (stopbutton->controller->buttons)[i];

@@ -13,6 +13,7 @@ void _ElevatorResetMotors(struct Elevator* elevator) {
 }
 
 void ElevatorSetActive(struct Elevator* elevator, bool active_) {
+    if (elevator->active == active_) return;
     elevator->active = active_;
     _ElevatorResetMotors(elevator);
     return;

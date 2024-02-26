@@ -6,7 +6,6 @@ struct Controller* ControllerSingleton() {
     controller->door = DoorSingleton();
     controller->queue = QueueSingleton(2000);
     controller->target = NULL;
-    controller->stopbutton = StopbuttonSingleton(controller);
     
     int i = 0;
     for(int f = 1; f <= 4 ; f++){
@@ -18,6 +17,7 @@ struct Controller* ControllerSingleton() {
             }
         }
     }
+    controller->stopbutton = StopbuttonSingleton(controller);
 
     return controller;
 }
@@ -33,6 +33,7 @@ void ControllerStart(struct Controller* controller) {
             ElevatorSetActive(controller->elevator, false);
             ControllerNewTarget(controller);
         } else {
+            ElevatorSetActive(controller->elevator, true);
             if (controller->elevator->floor == 0) {
 
             } else {
@@ -77,14 +78,3 @@ void ControllerNewTarget(struct Controller* controller) {
     }
 }
 
-void ControlerReset(struct Controller* controller) {
-    for (int i=0; i < 10; ++i) {
-        struct Button* currentBtn = (controller->buttons)[i];
-        ButtonUnactivate(currentBtn);
-    }
-    DoorClose(controller->door);
-    DoorDestruct(controller->door);
-    ElevatorDestruct(controller->elevator);
-    QueueDestruct(controller->queue);
-    free(controller);
-}
