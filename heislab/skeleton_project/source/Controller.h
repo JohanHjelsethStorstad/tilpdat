@@ -28,3 +28,5 @@ void ControllerStart(struct Controller* controller);
 void ControllerStartPosition(struct Controller* controller);
 
 void ControllerNewTarget(struct Controller* controller);
+
+void queueClearInForCurrentFloor(struct Controller* controller);

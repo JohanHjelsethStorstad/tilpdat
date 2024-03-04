@@ -30,7 +30,7 @@ void _StopbuttonSetStop(struct Stopbutton* stopbutton, bool stop) {
     stopbutton->stop = stop;
     elevio_stopLamp(stop);
 
-    if(stop) {
+    if (stop) {
         printf("Stop");
         ElevatorSetActive(stopbutton->controller->elevator, false);
         stopbutton->controller->target = NULL;

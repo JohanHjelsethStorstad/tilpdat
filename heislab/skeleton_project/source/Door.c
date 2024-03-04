@@ -17,7 +17,6 @@ void DoorOpen(struct Door* door) {
 
 void DoorWaitForClose(struct Door* door) {
     while (door->open) {
-        DoorWatch(door);
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
     return;

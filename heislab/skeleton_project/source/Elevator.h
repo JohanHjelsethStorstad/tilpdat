@@ -13,8 +13,10 @@ enum Direction {
 
 struct Elevator {
     enum Floor floor;
+    enum Floor lastValidFloor; // Last floor the elevator was at, that is: this value is never 0.
     enum Direction direction;
     bool active;
+    bool waiting;
 };
 
 void _ElevatorResetMotors(struct Elevator* elevator);
@@ -36,3 +38,5 @@ struct Elevator* ElevatorSingleton();
 void ElevatorDestroy(struct Elevator* elevator);
 
 void ElevatorPrint(struct Elevator* elevator);
+
+void ElevatorWaitForNextFloor(struct Elevator* elevator, enum Floor prevFloor);

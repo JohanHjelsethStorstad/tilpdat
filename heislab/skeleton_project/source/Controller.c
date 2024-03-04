@@ -29,39 +29,49 @@ void ControllerStart(struct Controller* controller) {
         ElevatorPrint(controller->elevator);
         QueuePrint(controller->queue);
 
-        if (!controller->target) {
-            ElevatorSetActive(controller->elevator, false);
-            ControllerNewTarget(controller);
-        } else {
-            ElevatorSetActive(controller->elevator, true);
-            if (controller->elevator->floor == 0) {
-
+        if (controller->target) {
+            int dirn = UP;
+            if (controller->target->floor == controller->elevator->lastValidFloor) {
+                dirn = controller->elevator->direction == UP ? DOWN : UP; 
             } else {
-                int diff = controller->elevator->floor - controller->target->floor;
+                dirn = controller->target->floor > controller->elevator->lastValidFloor ? UP : DOWN;
+            }
+            ElevatorSetDirection(controller->elevator, dirn);
+            if (controller->elevator->floor == controller->target->floor) {
+                controller->target = NULL;
+                DoorOpen(controller->door);
+                DoorWatch(controller->door);
+                DoorWaitForClose(controller->door);
+                queueClearInForCurrentFloor(controller);
+            } else {
+                ElevatorSetActive(controller->elevator, true);
+                ElevatorWaitForNextFloor(controller->elevator, controller->elevator->floor);
+                int diff = -1;
+                if (controller->target != NULL) {
+                    diff = controller->target->floor - controller->elevator->floor;
+                }
                 if (diff == 0) {
                     ElevatorSetActive(controller->elevator, false);    
-                    for (int i=0; i < 10; ++i) {
-                        struct Button* currentBtn = (controller->buttons)[i];
-                        if (currentBtn->type == controller->target->type && currentBtn->floor == controller->target->floor) {
-                            ButtonUnactivate(currentBtn);
-                        }
-                    }
+                    queueClearInForCurrentFloor(controller);
                     controller->target = NULL;
                     DoorOpen(controller->door);
                     DoorWatch(controller->door);
                     DoorWaitForClose(controller->door);
-                } else {
-                    ElevatorSetActive(controller->elevator, true);
-                    if (diff > 0)ElevatorSetDirection(controller->elevator, DOWN);
-                    else ElevatorSetDirection(controller->elevator, UP);
-                } 
+                }
             }
+        } else {
+            ElevatorSetActive(controller->elevator, false);
+            ControllerNewTarget(controller);
         }
+    }
+}
 
-        if (controller->elevator->floor != 0) {
-            // queue checks
+void queueClearInForCurrentFloor(struct Controller* controller) {
+    for (int i=0; i < 10; ++i) {
+        struct Button* currentBtn = (controller->buttons)[i];
+        if (currentBtn->floor == controller->elevator->floor) {
+            ButtonUnactivate(currentBtn);
         }
-        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
 }
 

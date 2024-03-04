@@ -65,6 +65,7 @@ void QueuePrint(struct Queue* q) {
     struct QueueElement* current = q->head;
     printf("Queue: \n");
     for (int i = 0; i < q->size; i++) {
+        if (current == NULL) break;
         printf("Floor: %d, type: %d\n", current->floor, current->type);
         current = current->prev;
     } 

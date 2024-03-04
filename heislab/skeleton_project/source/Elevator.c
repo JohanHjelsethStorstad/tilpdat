@@ -16,6 +16,9 @@ void ElevatorSetActive(struct Elevator* elevator, bool active_) {
     if (elevator->active == active_) return;
     elevator->active = active_;
     _ElevatorResetMotors(elevator);
+    if (active_ == false) {
+        elevator-> waiting = false;
+    }
     return;
 }
 
@@ -28,8 +31,10 @@ void ElevatorSetDirection(struct Elevator* elevator, enum Direction direction_) 
 
 void _ElevatorSetFloor(struct Elevator* elevator, enum Floor floor_) {
     elevator->floor = floor_;
-    if (!elevator->floor == 0)
+    if (!elevator->floor == 0) {
+        elevator->lastValidFloor = elevator->floor;
         elevio_floorIndicator(elevator->floor - 1);
+    }
     return;
 }
 
@@ -60,7 +65,16 @@ struct Elevator* ElevatorSingleton() {
     ElevatorSetActive(elevator, false);
     ElevatorSetDirection(elevator, DOWN);
     ElevatorReadFloorThread(elevator);
+    elevator->waiting = false;
     return elevator;
+}
+
+void ElevatorWaitForNextFloor(struct Elevator* elevator, enum Floor prevFloor) {
+    elevator->waiting = true;
+    while ((elevator->floor == 0 || elevator->floor == prevFloor) && elevator->waiting) {
+        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+    }
+    return;
 }
 
 void ElevatorDestroy(struct Elevator* elevator) {
