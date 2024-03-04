@@ -12,6 +12,7 @@ struct Stopbutton* StopbuttonSingleton(struct Controller* controller) {
     }else {
         printf("Stopbutton already initialized\n");
     }
+    elevio_stopLamp(0);
     
     return stopbutton;
 }
@@ -39,6 +40,9 @@ void _StopbuttonSetStop(struct Stopbutton* stopbutton, bool stop) {
             struct Button* currentBtn = (stopbutton->controller->buttons)[i];
             ButtonUnactivate(currentBtn);
         }
-        DoorOpen(stopbutton->controller->door);
+        if (stopbutton->controller->elevator->floor != 0) {
+            DoorOpen(stopbutton->controller->door);
+            DoorWatch(stopbutton->controller->door);
+        }
     }
 }

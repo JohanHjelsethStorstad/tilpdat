@@ -28,6 +28,8 @@ void ElevatorSetDirection(struct Elevator* elevator, enum Direction direction_) 
 
 void _ElevatorSetFloor(struct Elevator* elevator, enum Floor floor_) {
     elevator->floor = floor_;
+    if (!elevator->floor == 0)
+        elevio_floorIndicator(elevator->floor - 1);
     return;
 }
 

@@ -2,7 +2,7 @@
 
 struct Door* DoorSingleton() {
     struct Door* door = (struct Door*)malloc(sizeof(struct Door));
-    door->open = false;
+    DoorClose(door);
     door->doorTimer = TimerConstructor(3);
     return door;
 }
