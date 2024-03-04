@@ -13,6 +13,58 @@ void QueueElementDestruct(struct QueueElement* qe) {
     free(qe);
 }
 
+struct Targs {
+    struct Queue* q;
+    enum Floor floor;
+    enum Direction dirn;
+    bool* shouldStop;
+};
+
+void _QueueChackIfShoudStopInFloor(void* args) {
+    struct Targs* targs = (struct Targs*)args;
+    struct Queue* q = targs->q;
+    enum Floor floor = targs->floor;
+    enum Direction dirn = targs->dirn;
+    bool* shouldStop = targs->shouldStop;
+
+    while (q->watchingQueueForStop) {
+        struct QueueElement* current = q->head;
+        for (int i = 0; i < q->size; i++) {
+            if (current == NULL) break;
+            if (current->floor == floor) {
+                if (current->type ==  Q_OFF || (current->type == Q_UP && dirn == UP) || (current->type == Q_DOWN && dirn == DOWN)) {
+                    *shouldStop = true;
+                    break;
+                }
+            }
+            current = current->prev;
+        }
+        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+    }
+    return;
+}
+
+void QueueCheckIfShouldStopInFloorWatch(struct Queue* q, enum Floor floor, enum Direction dirn, bool* shouldStop) {
+    pthread_t watchQueueThread;
+    struct Targs* targs = (struct Targs*)malloc(sizeof(struct Targs));
+    targs->q = q;
+    targs->floor = floor;
+    targs->dirn = dirn;
+    targs->shouldStop = shouldStop;
+
+    if (q->watchingQueueForStop) {
+        printf("{Queue.c}Queue is already being watched for stop");
+        return;
+    }
+    q->watchingQueueForStop = true;
+    pthread_create(&watchQueueThread, NULL, _QueueChackIfShoudStopInFloor, targs);
+    pthread_detach(watchQueueThread);
+}
+
+void QueueStopWatching(struct Queue* q) {
+    q->watchingQueueForStop = false;
+}
+
 struct Queue* QueueSingleton(int limit) {
     struct Queue* queue = (struct Queue*) malloc(sizeof(struct Queue));
     if (limit <= 0) {
@@ -22,6 +74,7 @@ struct Queue* QueueSingleton(int limit) {
     queue->size = 0;
     queue->head = NULL;
     queue->tail = NULL;
+    queue->watchingQueueForStop = false;
     return queue;
 }
 
@@ -69,6 +122,25 @@ void QueuePrint(struct Queue* q) {
         printf("Floor: %d, type: %d\n", current->floor, current->type);
         current = current->prev;
     } 
+}
+
+void QueueRemove(struct Queue* q, struct QueueElement* qe) {
+    struct QueueElement* current = q->head;
+    struct QueueElement* prev = NULL;
+    for (int i = 0; i < q->size; i++) {
+        if ((current->floor == qe->floor) && (current->type == qe->type)) {
+            printf("removing element\n");
+            if (prev == NULL) {
+                q->head = current->prev;
+            } else {
+                prev->prev = current->prev;
+            }
+            q->size--;
+            return;
+        }
+        prev = current;
+        current = current->prev;
+    }
 }
 
 void QueueDestruct(struct Queue* q) {

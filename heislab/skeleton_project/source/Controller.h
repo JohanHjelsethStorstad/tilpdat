@@ -19,6 +19,7 @@ struct Controller {
     struct QueueElement* target;
     struct Button* buttons[10];
     struct Stopbutton* stopbutton;
+    bool active; //ignore orders and stop button
 };
 
 struct Controller* ControllerSingleton();
@@ -29,4 +30,10 @@ void ControllerStartPosition(struct Controller* controller);
 
 void ControllerNewTarget(struct Controller* controller);
 
-void queueClearInForCurrentFloor(struct Controller* controller);
+void QueueClearInForCurrentFloor(struct Controller* controller);
+
+void ControllerStopInThisFloor(struct Controller* controller);
+
+void ControllerActivate(struct Controller* controller);
+
+void ControllerUnactivate(struct Controller* controller);

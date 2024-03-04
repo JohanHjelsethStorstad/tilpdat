@@ -15,7 +15,7 @@ void ButtonDestruct(struct Button* btn) {
 }
 
 void _ButtonActivate(struct Button* btn) {
-    if (!btn->active) {
+    if (!btn->active && *(btn->activeForPress)) {
         struct QueueElement* qe = QueueElementConsturctor(btn->type, btn->floor);
         QueueAdd(btn->queue, qe);
         btn->active = 1;
@@ -49,4 +49,8 @@ void ButtonReadThread(struct Button* btn) {
 
 void ButtonPrint(struct Button* btn) {
     printf("Button: type: %d, floor: %d, active: %d\n", btn->type, btn->floor, btn->active);
+}
+
+void ButtonSetActivePress(struct Button* btn, bool* activeForPress) {
+    btn->activeForPress = activeForPress;
 }

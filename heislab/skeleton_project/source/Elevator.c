@@ -17,7 +17,7 @@ void ElevatorSetActive(struct Elevator* elevator, bool active_) {
     elevator->active = active_;
     _ElevatorResetMotors(elevator);
     if (active_ == false) {
-        elevator-> waiting = false;
+        elevator->waiting = false;
     }
     return;
 }

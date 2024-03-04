@@ -6,14 +6,11 @@
 int main() {
     elevio_init();
     
-    printf("=== Example Program ===\n");
-    printf("Press the stop button on the elevator panel to exit\n");
-
-
+    printf("=== Heis max 100 000 000 ===\n");
     
     struct Controller* controller = ControllerSingleton();
+    ControllerStartPosition(controller);
     ControllerStart(controller);
-    
 
     return 0;
 }

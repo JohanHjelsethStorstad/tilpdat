@@ -8,6 +8,7 @@
 struct Stopbutton {
     bool stop;
     struct Controller* controller;
+    bool doorHoldOpen;
 };
 
 struct Stopbutton* StopbuttonSingleton(struct Controller* controller);

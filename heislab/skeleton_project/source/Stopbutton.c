@@ -5,6 +5,8 @@ struct Stopbutton* StopbuttonSingleton(struct Controller* controller) {
     if (stopbutton == NULL) {
         stopbutton = (struct Stopbutton*)malloc(sizeof(struct Stopbutton));
         stopbutton->controller = controller;
+        stopbutton->stop = false;
+        stopbutton->doorHoldOpen = false;
 
         pthread_t watchStopbuttonThread;
         pthread_create(&watchStopbuttonThread, NULL, StopbuttonUpdate, stopbutton);
@@ -30,7 +32,7 @@ void _StopbuttonSetStop(struct Stopbutton* stopbutton, bool stop) {
     stopbutton->stop = stop;
     elevio_stopLamp(stop);
 
-    if (stop) {
+    if (stop && stopbutton->controller->active) {
         printf("Stop");
         ElevatorSetActive(stopbutton->controller->elevator, false);
         stopbutton->controller->target = NULL;
@@ -41,8 +43,17 @@ void _StopbuttonSetStop(struct Stopbutton* stopbutton, bool stop) {
             ButtonUnactivate(currentBtn);
         }
         if (stopbutton->controller->elevator->floor != 0) {
-            DoorOpen(stopbutton->controller->door);
-            DoorWatch(stopbutton->controller->door);
+            stopbutton->doorHoldOpen = true;
         }
+        stopbutton->controller->active = false;
+    } else if (!stop && !stopbutton->controller->active) {
+        ControllerActivate(stopbutton->controller);
+        stopbutton->doorHoldOpen = false;
+        TimerStart(stopbutton->controller->door->doorTimer);
+    }
+    if (stopbutton->doorHoldOpen) {
+        TimerHalt(stopbutton->controller->door->doorTimer);
+        DoorOpen(stopbutton->controller->door);
+        DoorWatch(stopbutton->controller->door);
     }
 }
