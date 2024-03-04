@@ -8,6 +8,7 @@ struct Door* DoorSingleton() {
 }
 
 void DoorOpen(struct Door* door) {
+    elevio_doorOpenLamp(1);
     door->open = true;
     TimerReset(door->doorTimer);
     TimerStart(door->doorTimer); 
@@ -23,6 +24,7 @@ void DoorWaitForClose(struct Door* door) {
 }
 
 void DoorClose(struct Door* door) {
+    elevio_doorOpenLamp(0);
     door->open = false;
     return;
 }

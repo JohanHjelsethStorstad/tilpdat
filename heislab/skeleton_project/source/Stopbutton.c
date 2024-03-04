@@ -39,5 +39,6 @@ void _StopbuttonSetStop(struct Stopbutton* stopbutton, bool stop) {
             struct Button* currentBtn = (stopbutton->controller->buttons)[i];
             ButtonUnactivate(currentBtn);
         }
+        DoorOpen(stopbutton->controller->door);
     }
 }
