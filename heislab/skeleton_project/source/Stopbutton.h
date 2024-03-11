@@ -13,6 +13,8 @@ struct Stopbutton {
 
 struct Stopbutton* StopbuttonSingleton(struct Controller* controller);
 
+void StopbuttonDestroy(struct Stopbutton* sbtn);
+
 void* StopbuttonUpdate(void* arg);
 
 void _StopbuttonSetStop(struct Stopbutton* stopbutton, bool stop);

@@ -24,6 +24,8 @@ struct Controller {
 
 struct Controller* ControllerSingleton();
 
+void ControllerDestroy(struct Controller* controller);
+
 void ControllerStart(struct Controller* controller);
 
 void ControllerStartPosition(struct Controller* controller);

@@ -144,3 +144,14 @@ void ControllerNewTarget(struct Controller* controller) {
     }
 }
 
+void ControllerDestroy(struct Controller* controller) {
+    StopbuttonDestroy(controller->stopbutton);
+    ElevatorDestroy(controller->elevator);
+    DoorDestruct(controller->door);
+    QueueDestruct(controller->queue);
+    QueueElementDestruct(controller->target);
+    for (int i=0; i<10; ++i) {
+        ButtonDestruct(controller->buttons[i]);
+    }
+}
+

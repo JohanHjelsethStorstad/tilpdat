@@ -7,6 +7,8 @@
 #include "driver/elevio.h"
 #include <pthread.h>
 
+#define N_BTNS 10
+
 struct Button {
     enum QueueType type;
     enum Floor floor;

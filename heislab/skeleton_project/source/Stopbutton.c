@@ -57,3 +57,7 @@ void _StopbuttonSetStop(struct Stopbutton* stopbutton, bool stop) {
         DoorWatch(stopbutton->controller->door);
     }
 }
+
+void StopbuttonDestroy(struct Stopbutton* sbtn) {
+    free(sbtn);
+}

@@ -27,6 +27,7 @@ struct Queue {
 };
 
 struct QueueElement* QueueElementConsturctor(enum QueueType type_, enum Floor floor_);
+void QueueElementDestruct(struct QueueElement* qe);
 
 struct Queue* QueueSingleton(int limit);
 

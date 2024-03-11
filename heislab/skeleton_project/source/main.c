@@ -11,6 +11,7 @@ int main() {
     struct Controller* controller = ControllerSingleton();
     ControllerStartPosition(controller);
     ControllerStart(controller);
+    ControllerDestroy(controller);
 
     return 0;
 }
